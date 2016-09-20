@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>留言牆</title>
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+    <style>
+        body {
+            width: 50%;
+            margin: auto;
+        }
+
+        #wallpostArticle {
+            background-color: #F5F5F5;
+        }
+
+        #wallPostTextBox {
+            position: relative;
+            float: left;
+            padding: 4px 3px 4px 4px;
+            background-color: #f0f0f0;
+            font-family: Arial;
+            font-size: 14px;
+            background-color: #fff;
+            cursor: text;
+            border: 1px solid #dcdee3;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .radio_Emo {
+            width: 30px;
+            height: 30px;
+            border-radius: 30px;
+            display: inline-block;
+        }
+
+    </style>
+    <script>
+        $(document).ready(function () {
+
+            //執行 getData();
+            getData();
+
+            //定義 getData Function
+            function getData() {
+
+                $.getJSON('data.json', function (data) {
+
+                    //取得 json 取得所有的 dataset
+                    wishes = data.dataset;
+
+                    //取得 wish 數量
+                    var length = wishes.length;
+
+                    //在前台呈現所有的 wish
+                    for (var i = length; i > 0; i--) {
+
+                        // var showHtml = escapeHtml( wishes[i-1] );
+                        var showHtml = wishes[i - 1];
+
+                        $('.wish-pool').append('<div class="wish hide">' + showHtml + '</div>');
+                        $('.wish-pool div').eq(length - i).delay((length - i) * 30).fadeIn(800);
+                    }
+                });
+            };
+        });
+        //Click Wish Button to Save
+
+    </script>
+</head>
+
+<body style="margin-top: 5%;">
+<!--   發文-->
+<div style="text-align: center;font-size: 30px; color:grey;">留言牆</div>
+<br>
+<div id="wallpostArticle" class="articleWidth">
+    <div style='border:0.2px solid'>
+
+        <!-- 對話框 -->
+        <br clear="both">
+        <div id="editControlBar" class="disappear">
+            <!-- 發文時的一些控制按鈕 -->
+            <div style="text-align: center;" id="emoSelectBar">
+                <!-- 情緒選擇區 -->
+                <label for="e1">
+                    <div class="radio_Emo" style="background-color:black;" value="神秘的"></div>
+                </label>
+                黑暗的
+                <input type="radio" name="Emotion" id="e1" value="1" class="radioHidd" checked="">
+                <label for="e2">
+                    <div class="radio_Emo" style="background-color:orangered;" value="神秘的"></div>
+                </label>
+                勇敢的
+                <input type="radio" name="Emotion" id="e2" value="2" class="radioHidd">
+
+                <label for="e3">
+                    <div class="radio_Emo" style="background-color:greenyellow;" value="神秘的"></div>
+                </label>
+                活力的
+                <input type="radio" name="Emotion" id="e3" value="3" class="radioHidd">
+
+                <label for="e4">
+                    <div class="radio_Emo" style="background-color:saddlebrown;" value="神秘的"></div>
+                </label>
+                沉思的
+                <input type="radio" name="Emotion" id="e4" value="4" class="radioHidd">
+
+                <label for="e5">
+                    <div class="radio_Emo" style="background-color:mediumpurple;" value="神秘的"></div>
+                </label>
+                神秘的
+                <input type="radio" name="Emotion" id="e5" value="5" class="radioHidd">
+            </div>
+            <br>
+            <div style="text-align: center;">
+                <input type="text"  placeholder="名字?" style="padding:5px;text-align: center;margin: auto;">
+            </div>
+                <br>
+                <br>
+                <br>
+                <div style="text-align:center;">
+                    <input id="giftname" type="text" placeholder="What do you want?" style="padding:20px; width:350px ; height:200px;text-align: center;">
+                </div>
+
+
+        </div>
+        <br clear="both">
+
+            <div id="editbuttonBar" style="text-align: center";>
+                <button id="wish-btn">留言</button>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <!--    留言區-->
+    <div id="articlePost1" class="wall_articleWidth emo1">
+
+        神秘的
+
+        <div id="posterProfile" style="background-color:lightyellow ; border:1px solid;">
+            <span id="name">這不是州哥:</span>
+            <sapn class="wish-pool"></sapn>
+            <br>
+        </div>
+
+    </div>
+    <script>
+        $(document).ready(function () {
+            //Click Wish Button to Save
+            $('#wish-btn').click(function () {
+                saveData();
+            });
+
+            // 定義 savedata 的動作，
+            function saveData() {
+
+                //如果 giftname 空白不能送出
+                if ($('#giftname').val() == '') {
+                    alert('Please Write A Gift');
+                } else {
+
+                    //取得新願望 並塞到前台。
+                    var newWish = $('#giftname').val();
+                    var newPerson = $('#people').val();
+
+
+                    //把data 存回去
+                    $.ajax({
+                        url: "addData.php",
+                        type: "POST",
+                        data: {wish: newWish, person: newPerson},
+                        success: function (data) {
+                            if (data == '1') {
+                                alert('哎呀，好像有什麼東西出錯啦，請稍後再試。');
+                            } else {
+                                $('.wish-pool div').eq(0).before('<div class="wish hide">' + newWish + '</div>');
+                                $('.wish-pool div').eq(0).fadeIn(1000);
+                            }
+                            $('#giftname').val(''); //清空input
+                        }
+                    });
+                }
+            };
+        });
+
+
+    </script>
+</body>
+
+</html>
