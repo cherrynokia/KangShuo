@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <OptionsSetting value="true" id="新增" />
+    <OptionsSetting value="true" id="移除" />
+    <OptionsSetting value="true" id="檢出" />
+    <OptionsSetting value="true" id="更新" />
+    <OptionsSetting value="true" id="狀態" />
+    <OptionsSetting value="true" id="編輯" />
+    <ConfirmationsSetting value="0" id="新增" />
+    <ConfirmationsSetting value="0" id="移除" />
+  </component>
+</project>
